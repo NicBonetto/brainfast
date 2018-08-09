@@ -1,0 +1,6 @@
+[package]
+name = "brainfast"
+version = "0.1.0"
+authors = ["Nic Bonetto <nick.bonetto@gmail.com>"]
+
+[dependencies]
