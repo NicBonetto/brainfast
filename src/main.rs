@@ -35,41 +35,61 @@ fn tokenize(input: &str) -> Vec<Token> {
   tokens
 }
 
+fn indent(count: u32) -> String {
+  let mut indentation = String::new();
+
+  for _ in 0..count {
+    indentation.push_str("  ");  // 2-space indent
+  }
+  indentation
+}
+
 fn generate(tokens: &[Token]) -> String {
   let mut output = String::from("int main() {\n");
+  let mut indentCount = 1u32;
 
   for &token in tokens {
     match token {
       Token::Add => {
         // Increment value at selected cell
+        output.push_str(&indent(indentCount));
         output.push_str("++*ptr;\n");
       }
       Token::Sub => {
         // Decrement value at selected cell
+        output.push_str(&indent(indentCount));
         output.push_str("--*ptr;\n");
       }
       Token::Right => {
         // Change selected cell one to the right
+        output.push_str(&indent(indentCount));
         output.push_str("++ptr;\n");
       }
       Token::Left => {
         // Change selected cell one to the left
+        output.push_str(&indent(indentCount));
         output.push_str("--ptr;\n");
       }
       Token::Read => {
         // Read a single character into the selected cell
+        output.push_str(&indent(indentCount));
         output.push_str("*ptr=getchar();\n");
       }
       Token::Write => {
         // Print character at selected cell
+        output.push_str(&indent(indentCount));
         output.push_str("putchar(*ptr);\n");
       }
       Token::BeginLoop => {
         // Begin a loop at the current cell
+        output.push_str(&indent(indentCount));
         output.push_str("while (*ptr) {\n");
+        indentCount += 1;
       }
       Token::EndLoop => {
         // End a loop
+        indentCount -= 1;
+        output.push_str(&indent(indentCount));
         output.push_str("}\n");
       }
     }
