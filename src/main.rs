@@ -1,37 +1,80 @@
 #[derive(Debug, PartialEq, Copy, Clone)]
 enum Token {
-    Add,        // +
-    Sub,        // -
-    Right,      // >
-    Left,       // <
-    Read,       // ,
-    Write,      // .
-    BeginLoop,  // [
-    EndLoop,    // ]
+  Add,        // +
+  Sub,        // -
+  Right,      // >
+  Left,       // <
+  Read,       // ,
+  Write,      // .
+  BeginLoop,  // [
+  EndLoop,    // ]
 }
-use self::Token::*;
 
 fn main() {
-    println!("It's a Brainf*uck to C compiler!");
+  println!("It's a Brainf*ck to C compiler!");
 }
 
 fn tokenize(input: &str) -> Vec<Token> {
-    let mut tokens = Vec::<Token>::new();
-    let mut chars = input.chars();
+  let mut tokens = Vec::<Token>::new();
+  let mut chars = input.chars();
 
-    while let Some(c) = chars.next() {
-        match c {
-            '+' => tokens.push(Add),
-            '-' => tokens.push(Sub),
-            '>' => tokens.push(Right),
-            '<' => tokens.push(Left),
-            ',' => tokens.push(Read),
-            '.' => tokens.push(Write),
-            '[' => tokens.push(BeginLoop),
-            ']' => tokens.push(EndLoop),
-            _ => {},
-        }
+  while let Some(c) = chars.next() {
+    match c {
+      '+' => tokens.push(Token::Add),
+      '-' => tokens.push(Token::Sub),
+      '>' => tokens.push(Token::Right),
+      '<' => tokens.push(Token::Left),
+      ',' => tokens.push(Token::Read),
+      '.' => tokens.push(Token::Write),
+      '[' => tokens.push(Token::BeginLoop),
+      ']' => tokens.push(Token::EndLoop),
+      _ => {},
     }
+  }
 
-    tokens
+  tokens
+}
+
+fn generate(tokens: &[Token]) -> String {
+  let mut output = String::from("int main() {\n");
+
+  for &token in tokens {
+    match token {
+      Token::Add => {
+        // Increment value at selected cell
+        output.push_str("++*ptr;\n");
+      }
+      Token::Sub => {
+        // Decrement value at selected cell
+        output.push_str("--*ptr;\n");
+      }
+      Token::Right => {
+        // Change selected cell one to the right
+        output.push_str("++ptr;\n");
+      }
+      Token::Left => {
+        // Change selected cell one to the left
+        output.push_str("--ptr;\n");
+      }
+      Token::Read => {
+        // Read a single character into the selected cell
+        output.push_str("*ptr=getchar();\n");
+      }
+      Token::Write => {
+        // Print character at selected cell
+        output.push_str("putchar(*ptr);\n");
+      }
+      Token::BeginLoop => {
+        // Begin a loop at the current cell
+        output.push_str("while (*ptr) {\n");
+      }
+      Token::EndLoop => {
+        // End a loop
+        output.push_str("}\n");
+      }
+    }
+  }
+
+  output.push_str("}\n");
+  output
 }
