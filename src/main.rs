@@ -10,20 +10,24 @@ use compile::{tokenize, generate};
 fn main() {
   println!("It's a Brainf*ck to C compiler!!!\n\n");
 
+  // Read user input
   let matches = app();
   let mut read_buffer = File::open(&matches[0])
     .expect("Could not read Brainfuck file.");
 
+  // Read Brainfuck contents
   let mut contents = String::new();
   read_buffer.read_to_string(&mut contents)
     .expect("Something went wrong reading the Brainfuck file.");
 
+  // Compile Brainfuck to C
   let tokens = tokenize(&contents);
   let code = generate(&tokens);
 
   let mut options = OpenOptions::new();
   options.write(true);
 
+  // Write to C file
   let write_file = match options.open(&matches[1]) {
     Ok(file) => file,
     Err(_) => panic!("No target C file found!"),
