@@ -4,7 +4,7 @@ A simple Brainf*ck ⇸ C CLI compiler.
 ## Download
 Clone the repository into any directory using the following command:
 ```
-$ git clone
+$ git clone https://github.com/NicBonetto/brainfast.git
 ```
 
 ##### TODO: Set PATH 
