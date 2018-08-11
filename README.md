@@ -5,6 +5,8 @@ A simple Brainf*ck ⇸ C CLI compiler.
 Clone the repository into any directory using the following command:
 ```
 $ git clone https://github.com/NicBonetto/brainfast.git
+$ cd brainfast/
+$ cargo build --release
 ```
 
 ##### TODO: Set PATH 
