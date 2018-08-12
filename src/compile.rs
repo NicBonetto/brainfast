@@ -24,7 +24,7 @@ pub fn tokenize(input: &str) -> Vec<Token> {
       '.' => tokens.push(Token::Write),
       '[' => tokens.push(Token::BeginLoop),
       ']' => tokens.push(Token::EndLoop),
-      _ => {},
+      _ => panic!("Could not finish compiling. Unknown symbol: {}", c.to_string()),
     }
   }
 
