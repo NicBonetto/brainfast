@@ -4,7 +4,7 @@ use self::clap::{App, Arg};
 use std::path::Path;
 use std::ffi::OsStr;
 
-pub fn app() -> Vec<String> {
+pub fn app() -> [String; 2] {
   let matches = App::new("brainfast")
     .version("1.0.0")
     .author("Nic Bonetto <nick.bonetto@gmail.com>")
@@ -21,18 +21,18 @@ pub fn app() -> Vec<String> {
       .help("target C file"))
     .get_matches();
 
-    let path = matches.value_of("PATH").unwrap().to_string();
-    let target = matches.value_of("TARGET").unwrap().to_string();
+  let path = matches.value_of("PATH").unwrap().to_string();
+  let target = matches.value_of("TARGET").unwrap().to_string();
 
-    // Check file extensions
-    if Path::new(&path).extension().and_then(OsStr::to_str) != Some("bf") {
-      panic!("PATH must have .bf extension.");
-    }
-    if Path::new(&target).extension().and_then(OsStr::to_str) != Some("c") {
-      panic!("TARGET must have .c extension.");
-    }
+  // Check file extensions
+  if Path::new(&path).extension().and_then(OsStr::to_str) != Some("bf") {
+    panic!("PATH must have .bf extension.");
+  }
+  if Path::new(&target).extension().and_then(OsStr::to_str) != Some("c") {
+    panic!("TARGET must have .c extension.");
+  }
 
-  vec![
+  [
     path,
     target
   ]
