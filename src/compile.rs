@@ -94,3 +94,30 @@ pub fn generate(tokens: &[Token]) -> String {
   output.push_str("}\n");
   output
 }
+
+// Unit tests
+#[cfg(test)]
+mod test {
+  use super::*;
+
+  #[test]
+  fn test_tokenize() {
+    assert_eq!(tokenize(&String::from("[+-><.,]")), vec![Token::BeginLoop, Token::Add, Token::Sub, Token::Right, Token::Left, Token::Write, Token::Read, Token::EndLoop]);
+  }
+
+  #[test]
+  #[should_panic]
+  fn test_bad_tokenize() {
+    tokenize(&String::from("+<-*"));
+  }
+
+  #[test]
+  fn test_indent() {
+    assert_eq!(indent(2), String::from("    "));
+  }
+
+  #[test]
+  fn test_generate() {
+    assert_eq!(generate(&vec![Token::BeginLoop, Token::Add, Token::Sub, Token::Right, Token::EndLoop]), String::from("int main() {\n  while (*ptr) {\n    ++*ptr;\n    --*ptr;\n    ++ptr;\n  }\n}\n"));
+  }
+}
